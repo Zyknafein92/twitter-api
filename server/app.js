@@ -20,6 +20,7 @@ app.route('/status').get((req, res) => res.send('Server Express listening'));
 app.use(Morgan('dev'));
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
+app.use(Express.static('./client'));
 
 app.use((req, res, next) => {
     console.log('Big Cat');
