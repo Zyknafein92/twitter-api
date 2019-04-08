@@ -1,28 +1,21 @@
 'use strict';
 
 const Router = require('express').Router();
-
-const USERS = [
-    {
-        id: 1,
-        nom: "Deneux",
-        prenom: "Jerome",
-    },
-    {
-        id: 5,
-        nom: "Gendillard",
-        prenom: "Axel",
-    },
-];
+const UserService = require('./user.service');
 
 Router.route('/')
-    .get((req, res) => {
-        res.json(USERS)
+    .get(async (req, res) => {
+        let users = await UserService.getAll();
+        res.json(users)
+    })
+    .post(async (req, res) => {
+       let user = await UserService.create(req.body);
+       res.json(user);
     });
 
 Router.route('/:id')
     .get((req, res) => {
-        let user = USERS.find(e => e.id == req.params.id);
+        let user = UserService.getById(req.params.id);
         res.json(user);
     });
 

@@ -10,8 +10,12 @@ require('dotenv').config();
 
 const SERVER = '../server';
 const App = require(SERVER + '/app');
+const Database = require(SERVER + '/database');
 
-App.start(process.env.PORT);
+Database.connect(process.env.MONGO_URI).then(() => {
+    App.start(process.env.PORT);
+});
+
 
 /*
 * Auth
