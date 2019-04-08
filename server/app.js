@@ -12,6 +12,8 @@ let app = Express();
 
 const API_ROOT = '/api';
 const TweetRoute = require('./api/tweet/tweet.route');
+const UserRoute = require('./api/user/user.route');
+
 
 /* ---------- CONFIGURATIONS ---------- */
 
@@ -28,6 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.use(API_ROOT + '/tweets', TweetRoute);
+app.use(API_ROOT + '/users', UserRoute);
 
 /* ---------- ROUTES ---------- */
 
