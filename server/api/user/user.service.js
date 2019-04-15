@@ -12,7 +12,7 @@ class UserService {
     }
 
     static getById(id) {
-        return []; //todo
+        return User.findById(id);
     }
 }
 

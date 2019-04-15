@@ -15,11 +15,3 @@ const Database = require(SERVER + '/database');
 Database.connect(process.env.MONGO_URI).then(() => {
     App.start(process.env.PORT);
 });
-
-
-/*
-* Auth
-* User
-* Tweet
-* Comments
-* */

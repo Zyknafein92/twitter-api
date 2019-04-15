@@ -1,21 +1,18 @@
 'use strict';
 
 const Router = require('express').Router();
+const TweetService = require('./tweet.service');
 
 Router.route('/')
-    .all((req, res) => {
-        let object = {
-            msg: 'Hello World!',
-            query: req.query,
-            body: req.body,
-            params: req.params,
-        };
-        res.json(object);
+    .get(async (req, res, next) => {
+        let tweet = await TweetService.getAll();
+        res.json(tweet);
+    })
+    .post(async (req, res, next) => {
+        let tweet = await TweetService.create(req.body);
+        res.json(tweet);
     });
 
-Router.route('/status')
-    .get((req, res) => {
-        res.sendStatus(418)
-    });
+// todo: Faire la route pour avoir tous les tweets d'un utilisateur.
 
 module.exports = Router;

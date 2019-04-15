@@ -10,10 +10,8 @@ let app = Express();
 
 /* ---------- ROUTES ---------- */
 
-const API_ROOT = '/api';
 const TweetRoute = require('./api/tweet/tweet.route');
 const UserRoute = require('./api/user/user.route');
-
 
 /* ---------- CONFIGURATIONS ---------- */
 
@@ -24,13 +22,8 @@ app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
 app.use(Express.static('./client'));
 
-app.use((req, res, next) => {
-    console.log('Big Cat');
-    next();
-});
-
-app.use(API_ROOT + '/tweets', TweetRoute);
-app.use(API_ROOT + '/users', UserRoute);
+app.use('/api/tweets', TweetRoute);
+app.use('/api/users', UserRoute);
 
 /* ---------- ROUTES ---------- */
 
