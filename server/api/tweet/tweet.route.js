@@ -13,6 +13,22 @@ Router.route('/')
         res.json(tweet);
     });
 
-// todo: Faire la route pour avoir tous les tweets d'un utilisateur.
+Router.route('/:author')
+    .get(async (req, res, next) => {
+        let tweets = await TweetService.getByAuthor(req.params.author);
+        res.json(tweets);
+    });
+
+Router.route('/me/subscriptions')
+    .get(async (req, res, next) => {
+        let tweets = await TweetService.getBySubscriptions();
+        res.json(tweets);
+    });
+
+Router.route('/:id/like')
+    .get(async (req, res, next) => {
+        let tweet = null //TODO see $inc
+        res.json(tweet);
+    });
 
 module.exports = Router;

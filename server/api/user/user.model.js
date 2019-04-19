@@ -10,6 +10,7 @@ const UserSchema = new Mongoose.Schema({
 
     firstName: {type: String, required: true, trim: true},
     lastName: {type: String, required: true, trim: true},
+    email: {type: String, trim: true},
     pseudo: {type: String, required: true, unique: true, trim: true, lowercase: true},
     pictureUrl: String,
     description: String,

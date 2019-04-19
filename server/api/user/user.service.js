@@ -2,6 +2,8 @@
 
 const User = require('./user.model');
 
+const CURRENT_AUTH_USER = 'zyk';
+
 class UserService {
     static getAll() {
         return User.find();
@@ -11,8 +13,19 @@ class UserService {
         return User.create(user);
     }
 
-    static getById(id) {
-        return User.findById(id);
+    static getByPseudo(pseudo) {
+        return User.findOne({pseudo});
+    }
+
+    static getMe() {
+        return User.findOne({pseudo: CURRENT_AUTH_USER});
+    }
+
+    static async subscribe(pseudo) {
+        let me = await User.findOneAndUpdate({pseudo: CURRENT_AUTH_USER}, {$addToSet: {subscriptions: pseudo}}, {new: true})
+        await User.findOneAndUpdate({pseudo}, {$addToSet: {followers: me.pseudo}});
+        return me;
+
     }
 }
 
