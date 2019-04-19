@@ -27,8 +27,14 @@ Router.route('/me/subscriptions')
 
 Router.route('/:id/like')
     .get(async (req, res, next) => {
-        let tweet = null //TODO see $inc
+        let tweet = await TweetService.like(req.params.id, 1);
         res.json(tweet);
     });
+Router.route('/:id/unlike')
+    .get(async (req, res, next) => {
+        let tweet = await TweetService.like(req.params.id, -1);
+        res.json(tweet);
+    });
+
 
 module.exports = Router;

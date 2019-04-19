@@ -22,10 +22,15 @@ class UserService {
     }
 
     static async subscribe(pseudo) {
-        let me = await User.findOneAndUpdate({pseudo: CURRENT_AUTH_USER}, {$addToSet: {subscriptions: pseudo}}, {new: true})
+        let me = await User.findOneAndUpdate({pseudo: CURRENT_AUTH_USER}, {$addToSet: {subscriptions: pseudo}}, {new: true});
         await User.findOneAndUpdate({pseudo}, {$addToSet: {followers: me.pseudo}});
         return me;
+    }
 
+    static async unsuscribe(pseudo){
+        let me = await User.findOneAndUpdate({pseudo: CURRENT_AUTH_USER}, {$pull: {subscriptions:pseudo}}, {new: true});
+        await User.findOneAndUpdate({pseudo}, {$pull: {followers: me.pseudo}});
+        return me;
     }
 }
 
