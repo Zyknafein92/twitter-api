@@ -27,7 +27,7 @@ Router.route('/:pseudo/subscribe')
 
 Router.route('/:pseudo/unsubscribe')
     .post(async (req, res , next) => {
-        let user = await UserService.unsuscribe(req.params.pseudo);
+        let user = await UserService.unsubscribe(req.params.pseudo);
         res.json(user);
     });
 
