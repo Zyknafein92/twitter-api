@@ -1,8 +1,10 @@
 'use strict';
 
 const Express = require('express');
+const Session = require('express-session');
 const BodyParser = require('body-parser');
 const Morgan = require('morgan');
+const Passport = require('passport');
 
 /* ---------- APPLICATION ---------- */
 
@@ -10,20 +12,34 @@ let app = Express();
 
 /* ---------- ROUTES ---------- */
 
-const TweetRoute = require('./api/tweet/tweet.route');
+const AuthRoute = require('./api/auth/auth.route');
 const UserRoute = require('./api/user/user.route');
+const TweetRoute = require('./api/tweet/tweet.route');
 
 /* ---------- CONFIGURATIONS ---------- */
 
-app.route('/status').get((req, res) => res.send('Server Express listening'));
+const Middleware = require('./middleware');
+const PassportConfig = require('./passport');
+PassportConfig();
 
 app.use(Morgan('dev'));
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
+app.use(Session({
+    resave: true, saveUninitialized: true,
+    secret: process.env.SESSION_SECRET
+}));
+app.use(Passport.initialize());
+app.use(Passport.session());
 app.use(Express.static('./client'));
 
-app.use('/api/tweets', TweetRoute);
-app.use('/api/users', UserRoute);
+app.route('/status').get((req, res) => res.send('Server Express listening'));
+
+app.use('/api/auth', AuthRoute);
+app.use('/api/users', Middleware.isAuthenticated, UserRoute);
+app.use('/api/tweets', Middleware.isAuthenticated, TweetRoute);
+
+app.use(Middleware.errorHandler);
 
 /* ---------- ROUTES ---------- */
 

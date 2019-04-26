@@ -24,7 +24,7 @@ class TweetService {
         return Tweet.find({author: {$in: me.subscriptions}});
     }
 
-    static like(id, qt) {
+    static like(id, qt) { //TODO: like = array de pseudo
        return Tweet.findByIdAndUpdate(id, {$inc: {likes: qt}}, {new: true});
     }
 

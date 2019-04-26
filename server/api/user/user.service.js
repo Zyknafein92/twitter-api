@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('./user.model');
+const Bcrypt = require('bcryptjs');
 
 const CURRENT_AUTH_USER = 'zyk';
 
@@ -10,6 +11,7 @@ class UserService {
     }
 
     static create(user) {
+        user.password = Bcrypt.hashSync(user.password);
         return User.create(user);
     }
 
@@ -31,6 +33,10 @@ class UserService {
         let me = await User.findOneAndUpdate({pseudo: CURRENT_AUTH_USER}, {$pull: {subscriptions:pseudo}}, {new: true});
         await User.findOneAndUpdate({pseudo}, {$pull: {followers: me.pseudo}});
         return me;
+    }
+
+    static comparePassword(clear, hash) {
+        return Bcrypt.compareSync(clear, hash);
     }
 }
 
