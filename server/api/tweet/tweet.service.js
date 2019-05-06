@@ -24,8 +24,15 @@ class TweetService {
         return Tweet.find({author: {$in: me.subscriptions}});
     }
 
-    static like(id, qt) { //TODO: like = array de pseudo
-       return Tweet.findByIdAndUpdate(id, {$inc: {likes: qt}}, {new: true});
+    static async like(id) {
+        let me = await UserService.getMe();
+        return Tweet.findByIdAndUpdate(id, {$addToSet: {likes: me.pseudo}}, {new: true});
+    }
+
+    static async unlike(id){
+        let me = await UserService.getMe();
+        return Tweet.findByIdAndUpdate(id, {$pull: {likes: me.pseudo}}, {new: true});
+
     }
 
 }
