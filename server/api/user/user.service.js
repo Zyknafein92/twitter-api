@@ -3,8 +3,6 @@
 const User = require('./user.model');
 const Bcrypt = require('bcryptjs');
 
-const CURRENT_AUTH_USER = 'zyk';
-
 class UserService {
     static getAll() {
         return User.find();
@@ -19,20 +17,16 @@ class UserService {
         return User.findOne({pseudo});
     }
 
-    static getMe() {
-        return User.findOne({pseudo: CURRENT_AUTH_USER});
+    static async subscribe(auth, pseudo) {
+        auth = await User.findOneAndUpdate({pseudo: auth.pseudo}, {$addToSet: {subscriptions: pseudo}}, {new: true});
+        await User.findOneAndUpdate({pseudo}, {$addToSet: {followers: auth.pseudo}});
+        return auth;
     }
 
-    static async subscribe(pseudo) {
-        let me = await User.findOneAndUpdate({pseudo: CURRENT_AUTH_USER}, {$addToSet: {subscriptions: pseudo}}, {new: true});
-        await User.findOneAndUpdate({pseudo}, {$addToSet: {followers: me.pseudo}});
-        return me;
-    }
-
-    static async unsubscribe(pseudo){
-        let me = await User.findOneAndUpdate({pseudo: CURRENT_AUTH_USER}, {$pull: {subscriptions:pseudo}}, {new: true});
-        await User.findOneAndUpdate({pseudo}, {$pull: {followers: me.pseudo}});
-        return me;
+    static async unsubscribe(auth, pseudo){
+        auth = await User.findOneAndUpdate({pseudo: auth.pseudo}, {$pull: {subscriptions:pseudo}}, {new: true});
+        await User.findOneAndUpdate({pseudo}, {$pull: {followers: auth.pseudo}});
+        return auth;
     }
 
     static comparePassword(clear, hash) {
