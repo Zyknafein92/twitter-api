@@ -21,13 +21,13 @@ Router.route('/:pseudo')
 
 Router.route('/:pseudo/subscribe')
     .post(async (req, res , next) => {
-        let user = await UserService.subscribe(req.auth, req.params.pseudo);
+        let user = await UserService.subscribe(req.user, req.params.pseudo);
         res.json(user);
     });
 
 Router.route('/:pseudo/unsubscribe')
     .post(async (req, res , next) => {
-        let user = await UserService.unsubscribe(req.auth, req.params.pseudo);
+        let user = await UserService.unsubscribe(req.user, req.params.pseudo);
         res.json(user);
     });
 
