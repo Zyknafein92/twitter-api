@@ -11,7 +11,7 @@ const TweetSchema = new Mongoose.Schema({
 
     message: {type: String, required: true},
     author: {type: String, required: true, trim: true, lowercase: true},
-    comments: [Comment.Schema],
+    comments: [Comment.schema],
     likes: [String],
     tags: [],
 

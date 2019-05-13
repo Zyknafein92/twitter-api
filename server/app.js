@@ -39,7 +39,7 @@ app.route('/status').get((req, res) => res.send('Server Express listening'));
 app.use('/api/auth', AuthRoute);
 app.use('/api/users', Middleware.isAuthenticated, UserRoute);
 app.use('/api/tweets', Middleware.isAuthenticated, TweetRoute);
-app.use('/api/comment', Middleware.isAuthenticated, CommentRoute);
+app.use('/api/comments', Middleware.isAuthenticated, CommentRoute);
 
 app.use(Middleware.errorHandler);
 
