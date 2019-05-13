@@ -15,6 +15,7 @@ let app = Express();
 const AuthRoute = require('./api/auth/auth.route');
 const UserRoute = require('./api/user/user.route');
 const TweetRoute = require('./api/tweet/tweet.route');
+const CommentRoute = require('./api/comment/comment.route');
 
 /* ---------- CONFIGURATIONS ---------- */
 
@@ -38,6 +39,7 @@ app.route('/status').get((req, res) => res.send('Server Express listening'));
 app.use('/api/auth', AuthRoute);
 app.use('/api/users', Middleware.isAuthenticated, UserRoute);
 app.use('/api/tweets', Middleware.isAuthenticated, TweetRoute);
+app.use('/api/comment', Middleware.isAuthenticated, CommentRoute);
 
 app.use(Middleware.errorHandler);
 

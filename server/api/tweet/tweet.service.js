@@ -1,7 +1,6 @@
 'use strict';
 
 const Tweet = require('./tweet.model');
-const UserService = require('../user/user.service');
 
 class TweetService {
     static getAll() {
@@ -30,6 +29,10 @@ class TweetService {
     static async unlike(auth, id){
         return Tweet.findByIdAndUpdate(id, {$pull: {likes: auth.pseudo}}, {new: true});
 
+    }
+
+    static async addComment(comment) {
+        return Tweet.findByIdAndUpdate(comment.tweetId, {$addToSet: {comments: comment}}, {new: true});
     }
 
 }

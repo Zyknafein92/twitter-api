@@ -24,7 +24,7 @@ class UserService {
     }
 
     static async unsubscribe(auth, pseudo){
-        auth = await User.findOneAndUpdate({pseudo: auth.pseudo}, {$pull: {subscriptions:pseudo}}, {new: true});
+        auth = await User.findOneAndUpdate({pseudo: auth.pseudo}, {$pull: {subscriptions: pseudo}}, {new: true});
         await User.findOneAndUpdate({pseudo}, {$pull: {followers: auth.pseudo}});
         return auth;
     }
