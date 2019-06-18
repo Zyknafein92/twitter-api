@@ -5,14 +5,14 @@ const CommentService = require('./comment.service');
 
 Router.route('/')
     .get(async (req, res, next) => {
-        let comments = await CommentService.getAll();
+        const comments = await CommentService.getAll();
         res.json(comments);
     });
 
 Router.route('/:id')
     .post(async (req, res, next) => {
         const {message} = req.body;
-        let comment = await CommentService.create(req.user, req.params.id, message);
+        const comment = await CommentService.create(req.user, req.params.id, message);
         res.json(comment);
     });
 

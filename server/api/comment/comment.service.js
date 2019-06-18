@@ -10,7 +10,7 @@ class CommentService {
     }
 
     static async create(auth, tweetId, message) {
-        let comment = await Comment.create({tweetId, message, author: auth.pseudo});
+        const comment = await Comment.create({tweetId, message, author: auth.pseudo});
         await TweetService.addComment(comment);
         return comment;
     }

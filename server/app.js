@@ -8,7 +8,7 @@ const Passport = require('passport');
 
 /* ---------- APPLICATION ---------- */
 
-let app = Express();
+const app = Express();
 
 /* ---------- ROUTES ---------- */
 
